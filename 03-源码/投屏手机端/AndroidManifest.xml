@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tv.debloat.mirrorsend"
+    android:versionCode="105"
+    android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:theme="@android:style/Theme.Material.NoActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            noHistory 一定不能设：它会在授权页失焦（系统录屏确认框弹出来）时
+            立刻把这个 Activity 销毁，回来时 onActivityResult 直接没了，
+            表现就是"权限点了、授权却没生效、还是投不上"。
+            taskAffinity 单独一套，是为了授权页关掉后回到用户原来的应用，
+            而不是把本 App 的主界面拉到前台。
+            screenOrientation=behind 是必须的：授权页本身没有方向偏好，默认会按
+            竖屏算，用户正在横屏全屏看视频/玩游戏时一弹它，整个屏幕就被掰回竖屏。
+            behind 让它跟着下面那个 Activity 的方向走，不动用户正在看的画面。
+            launchMode=singleTask 也是必须的：不给的话系统会再造一个实例，
+            两个实例各弹一次系统授权框，用户看到的就是"连着问两遍权限"。
+            configChanges 同样必须：behind 方向策略会让它在屏幕方向变化时
+            自己重建一次，一重建就再跑一遍 onCreate、又弹一个授权框，
+            表现就是"转个屏问两遍权限"。自己吃掉这些配置变化，它就不重建了。
+        -->
+        <activity
+            android:name=".ReauthActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="tv.debloat.mirrorsend.reauth"
+            android:screenOrientation="behind"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|density|uiMode"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name=".MirrorService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+    </application>
+</manifest>
