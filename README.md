@@ -26,12 +26,15 @@
 
 ## 直接下载
 
-不想自己编译的话，这两个包可以直接装：
+v1.0 已经发到 [Release](https://github.com/ShenShangShenShang/phone-tv-mirror/releases/tag/v1.0)，不想自己编译的话直接装这两个：
 
 | 文件 | 大小 | 下载 |
 |---|---|---|
-| 手机端 v1.0 | 90,915 字节（versionCode 105） | [投屏手机端_v1.0.apk](https://github.com/ShenShangShenShang/phone-tv-mirror/raw/main/01-APK/%E6%8A%95%E5%B1%8F%E6%89%8B%E6%9C%BA%E7%AB%AF_v1.0.apk) |
-| 电视端 v1.0 | 62,243 字节（versionCode 102） | [投屏电视端_v1.0.apk](https://github.com/ShenShangShenShang/phone-tv-mirror/raw/main/01-APK/%E6%8A%95%E5%B1%8F%E7%94%B5%E8%A7%86%E7%AB%AF_v1.0.apk) |
+| 手机端 v1.0 | 90,915 字节（versionCode 105） | [phone-tv-mirror-sender-v1.0.apk](https://github.com/ShenShangShenShang/phone-tv-mirror/releases/download/v1.0/phone-tv-mirror-sender-v1.0.apk) |
+| 电视端 v1.0 | 62,243 字节（versionCode 102） | [phone-tv-mirror-tv-v1.0.apk](https://github.com/ShenShangShenShang/phone-tv-mirror/releases/download/v1.0/phone-tv-mirror-tv-v1.0.apk) |
+
+Release 附件用的是纯英文文件名（GitHub 会把中文名剥掉，两个包会撞成同一个名字），
+仓库里 `01-APK/` 下还是原来的中文名，是同一个文件。
 
 电视端要先装、手机端后装。装电视端之前如果装过旧版本（用 `tvbox.keystore` 签的那一版），
 必须先 `pm uninstall tv.debloat.mirror` 再装，否则会报 `INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES`。
